@@ -19,6 +19,11 @@
                                     <th>NO</th>
                                     <th>No Pasien</th>
                                     <th>Nama</th>
+                                     <th>Jeni Kelamin</th>
+                                    <th>Usia</th>
+                                    <th>foto</th>
+                                    <th>Alamat</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,6 +33,13 @@
                                         <td>{{ $item->no_pasien }}</td>
                                         <td>
                                             {{ $item->nama }}
+                                        </td>
+                                        <td>{{ $item->jenis_kelamin }}</td>
+                                        <td>{{ $item->usia }}</td>
+                                        <td><img src="/storage/image/{{$item->foto }}" alt="foto" height="30px" </td>
+                                        <td>{{ $item->alamat }}</td>
+                                         <td>
+                                            {{ 'Edit | Hapus' }}
                                         </td>
                                     </tr>
                                 @endforeach

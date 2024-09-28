@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class pasien extends Model
 {
     use HasFactory;
+    //egg
+    protected $guarded = [];
+    // protected $fillael = []
 }

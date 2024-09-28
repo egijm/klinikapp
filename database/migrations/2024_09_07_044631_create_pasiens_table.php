@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('pasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('no_pasien');
-            $table->string('nama');
-            $table->string('umur');
-            $table->string('foto')->nullable();
-            $table->string('jenis_kelamin');
-            $table->string('alamat')->nullable();
+            $table->string('No_Pasien');
+            $table->string('Nama');
+            $table->string('Umur');
+            $table->string('Foto')->nullable();
+            $table->string('Jenis_Kelamin');
+            $table->string('Alamat')->nullable();
             $table->timestamps();
         });
     }
