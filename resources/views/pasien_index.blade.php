@@ -1,5 +1,4 @@
-<div>
-   @extends('layouts.app', ['title' => 'Data Pasien'])
+@extends('layouts.app', ['title' => 'Data Pasien'])
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -19,9 +18,9 @@
                                     <th>NO</th>
                                     <th>No Pasien</th>
                                     <th>Nama</th>
-                                     <th>Jeni Kelamin</th>
+                                    <th>Jenis Kelamin</th>
                                     <th>Usia</th>
-                                    <th>foto</th>
+                                    <th>Foto</th>
                                     <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -31,15 +30,25 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->no_pasien }}</td>
-                                        <td>
-                                            {{ $item->nama }}
-                                        </td>
+                                        <td>{{ $item->nama }}</td>
                                         <td>{{ $item->jenis_kelamin }}</td>
-                                        <td>{{ $item->usia }}</td>
-                                        <td><img src="/storage/image/{{$item->foto }}" alt="foto" height="30px" </td>
+                                        <td>{{ $item->umur }}</td>
+                                        <td>
+                                            <img src="/storage/images/{{ $item->foto ? $item->foto : '0.jpg' }}" alt="foto" height="50px" width="50px">
+                                        </td>
                                         <td>{{ $item->alamat }}</td>
-                                         <td>
-                                            {{ 'Edit | Hapus' }}
+                                        <td>
+                                            <a href="/pasien/{{ $item->id }}/edit" class="btn btn-warning btn-sm ml-2">
+                                                Edit
+                                            </a>
+                                            <form action="/pasien/{{ $item->id }}" method="post" class="d-inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-sm ml-2"
+                                                    onclick="return confirm('Yakin ingin menghapus data?')">
+                                                    Hapus
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -51,5 +60,4 @@
             </div>
         </div>
     </div>
-@endsection
-</div>
+    @endsection
