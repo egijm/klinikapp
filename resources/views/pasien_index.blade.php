@@ -1,5 +1,5 @@
 <div>
-   @extends('layouts.app', ['title' => 'Data Pasien'])
+   @extends('layouts.app_modern', ['title' => 'Data Pasien'])
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -36,11 +36,22 @@
                                         </td>
                                         <td>{{ $item->jenis_kelamin }}</td>
                                         <td>{{ $item->usia }}</td>
-                                        <td><img src="/storage/image/{{$item->foto }}" alt="foto" height="30px" </td>
+                                        <td>
+                                        <img src="/storage/images/{{ $item->foto ? $item->foto : '0.jpg' }}" alt="foto" height="50px" width="50px">
                                         <td>{{ $item->alamat }}</td>
-                                         <td>
-                                            {{ 'Edit | Hapus' }}
-                                        </td>
+                                                 <td>
+            <a href="/pasien/{{ $item->id }}/edit" class="btn btn-warning btn-sm ml-2">
+                Edit
+            </a>
+            <form action="/pasien/{{ $item->id }}" method="post" class="d-inline">
+                @csrf
+                @method('delete')
+                <button class="btn btn-danger btn-sm ml-2"
+                    onclick="return confirm('Yakin ingin menghapus data?')">
+                    Hapus
+                </button>
+            </form>
+        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

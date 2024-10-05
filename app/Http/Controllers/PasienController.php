@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PasienController extends Controller
 {
@@ -29,25 +30,25 @@ class PasienController extends Controller
     public function store(Request $request)
     {
             $requestData = $request->validate([
-        'no_pasien' => 'required|unique:pasiens,no_pasien',
-        'nama' => 'required',
-        'umur' => 'required|numeric',
-        'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-        'alamat' => 'nullable',
-        'foto' => 'required|image|mimes:jpeg,png,jpg|max:5000',
-    ]);
-    $pasien = new \App\Models\Pasien();
+            'no_pasien'     => 'required|unique:pasiens,no_pasien',
+            'nama'          => 'required',
+            'umur'          => 'required|numeric',
+            'jenis_kelamin' => 'required|in:laki-laki,perem7puan',
+            'alamat'        => 'nullable',
+            'foto'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+        $pasien = new \App\Models\Pasien();
         $pasien->no_pasien = $requestData['no_pasien'];
         $pasien->nama = $requestData['nama'];
         $pasien->umur = $requestData['umur'];
         $pasien->jenis_kelamin = $requestData['jenis_kelamin'];
         $pasien->alamat = $requestData['alamat'];
-        $pasien->save();
         if ($request->hasFile('foto')) {
-            $request->file('foto')->move('images/', $request->file('foto')->getClientOriginalName());
-            $pasien->foto = $request->file('foto')->getClientOriginalName();
-            $pasien->save();
+            $fotoName = time().'.'.$request->foto->extension();
+            $request->file('foto')->storeAs('public/images', $fotoName);
+            $pasien->foto = $fotoName;
         }
+        $pasien->save();
         return redirect('/pasien')->with('pesan', 'Data sudah disimpan');
     }
     //egg hire
@@ -64,7 +65,9 @@ class PasienController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['pasien'] = \App\Models\Pasien::findOrFail($id);
+    return view('pasien_edit', $data);
+
     }
 
     /**
@@ -72,14 +75,38 @@ class PasienController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         $requestData = $request->validate([
+            'no_pasien'     => 'required|unique:pasiens,no_pasien,' . $id,
+            'nama'          => 'required|min:2',
+            'umur'          => 'required|numeric',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'alamat'        => 'nullable',
+            'foto'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+        $pasien = \App\Models\Pasien::findOrFail($id);
+        $pasien->no_pasien = $requestData['no_pasien'];
+        $pasien->nama = $requestData['nama'];
+        $pasien->umur = $requestData['umur'];
+        $pasien->jenis_kelamin = $requestData['jenis_kelamin'];
+        $pasien->alamat = $requestData['alamat'];
+        if ($request->hasFile('foto')) {
+            $fotoName = time().'.'.$request->foto->extension();
+            $request->file('foto')->storeAs('public/images', $fotoName);
+            $Image = str_replace('/storage', '', $pasien->foto);
+            if(Storage::exists('public/images/' . $Image)){
+                Storage::delete('/public/images/' . $Image);
+            }
+            $pasien->foto = $fotoName;
+        }
+        $pasien->save();
+        return redirect('/pasien')->with('pesan', 'Data sudah diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+        public function destroy(string $id)
     {
-        //
+        $pasien = \App\Models\Pasien::findOrFail($id);
+        $pasien->delete();
+        return back()->with('pesan', 'Data sudah dihapus');
     }
+
 }
