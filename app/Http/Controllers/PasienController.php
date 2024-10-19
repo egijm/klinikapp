@@ -29,13 +29,13 @@ class PasienController extends Controller
      */
     public function store(Request $request)
     {
-            $requestData = $request->validate([
+        $requestData = $request->validate([
             'no_pasien'     => 'required|unique:pasiens,no_pasien',
             'nama'          => 'required',
             'umur'          => 'required|numeric',
-            'jenis_kelamin' => 'required|in:laki-laki,perem7puan',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'alamat'        => 'nullable',
-            'foto'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'foto'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $pasien = new \App\Models\Pasien();
         $pasien->no_pasien = $requestData['no_pasien'];
@@ -74,7 +74,7 @@ class PasienController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
+   {
          $requestData = $request->validate([
             'no_pasien'     => 'required|unique:pasiens,no_pasien,' . $id,
             'nama'          => 'required|min:2',
@@ -102,7 +102,7 @@ class PasienController extends Controller
         return redirect('/pasien')->with('pesan', 'Data sudah diubah');
     }
 
-        public function destroy(string $id)
+      public function destroy(string $id)
     {
         $pasien = \App\Models\Pasien::findOrFail($id);
         $pasien->delete();

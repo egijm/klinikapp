@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>{{ $title ?? '' }}</title>
     <link rel="shortcut icon" type="image/png" href="/modern/src/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="/modern/src/assets/css/styles.min.css" />
 </head>
@@ -18,8 +18,8 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="/modern/src/assets/images/logos/dark-logo.svg" width="180" alt="" />
+                    <a href="." class="text-nowrap logo-img">
+                        <img src="/modern/src/assets/images/logos/webpro.png" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -30,7 +30,7 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Home</span>
+                            <span class="hide-menu">Menu</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/home" aria-expanded="false">
@@ -40,40 +40,39 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Data Pasien</span>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/daftar" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-clipboard"></i>
+                                </span>
+                                <span class="hide-menu">Pendaftaran</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/pasien" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-article"></i>
+                                    <i class="ti ti-user-exclamation"></i>
                                 </span>
                                 <span class="hide-menu">Pasien</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/pasien/create" aria-expanded="false">
+                            <a class="sidebar-link" href="/poli" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-alert-circle"></i>
+                                    <i class="ti ti-building"></i>
                                 </span>
-                                <span class="hide-menu">Tambah Pasien</span>
+                                <span class="hide-menu">Poli</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                <a class="sidebar-link" href="javascript:void(0)"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <span>
-                        <i class="ti ti-alert-circle"></i>
-                    </span>
-                    <span class="hide-menu">Logout</span>
-                </a>
-            </li>
-
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-
+                            <a class="sidebar-link" href="/users" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user"></i>
+                                </span>
+                                <span class="hide-menu">Pengguna</span>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -101,7 +100,6 @@
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            {{-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -126,8 +124,15 @@
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./authentication-login.html"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="if(confirm('Anda yakin keluar?')) { event.preventDefault(); document.getElementById('logout-form').submit(); } else { return false; }"
+                                            class="btn btn-outline-primary mx-3 mt-2 d-block">
+                                            <i class="ti ti-logout me-2"></i>Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                                     </div>
                                 </div>
                             </li>
@@ -145,11 +150,13 @@
                 @yield('content')
             </div>
         </div>
-        <script src="/modern/src/assets/libs/jquery/dist/jquery.min.js"></script>
-        <script src="/modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/modern/src/assets/js/sidebarmenu.js"></script>
-        <script src="/modern/src/assets/js/app.min.js"></script>
-        <script src="/modern/src/assets/libs/simplebar/dist/simplebar.js"></script>
+    </div>
+
+    <script src="/modern/src/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/modern/src/assets/js/sidebarmenu.js"></script>
+    <script src="/modern/src/assets/js/app.min.js"></script>
+    <script src="/modern/src/assets/libs/simplebar/dist/simplebar.js"></script>
 </body>
 
 </html>
